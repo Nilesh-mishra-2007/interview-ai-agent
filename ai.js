@@ -1,11 +1,4 @@
-// AI ENGINE: talks to Google Gemini using Node's built-in fetch().
-// Zero external dependencies. Supports structured JSON outputs for:
-// 1. Interview Strategy Reports
-// 2. ATS-Friendly Resumes + ATS Score Analyzer
-// 3. Cover Letters, Recruiter Cold Emails & Screening Q&As
-// 4. Batch Job Match Scoring (for the AI Career Agent)
-// 5. Multi-Week Skill Learning Roadmaps with Best Resources
-// 6. Interactive JD-Based Mock Interviews with Adaptive Follow-Ups
+
 
 const { AppError } = require("./errors");
 
@@ -178,17 +171,31 @@ const mockEvalSchema = object({
 // ---------- Core Gemini caller ----------
 
 async function askGemini(parts, schema) {
-  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENAI_API_KEY;
+  const apiKey = String(process.env.GEMINI_API_KEY || process.env.GOOGLE_GENAI_API_KEY || "").trim();
   if (!apiKey) {
     throw new AppError(500, "The server has no GEMINI_API_KEY. Add it to your .env file and restart.");
   }
 
-  const model = process.env.GEMINI_MODEL || "gemini-flash-latest";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  const model = String(process.env.GEMINI_MODEL || "gemini-3.8-flash").trim().replace(/^models\//, "");
+  const thinkingLevel = String(process.env.GEMINI_THINKING_LEVEL || "low").trim().toLowerCase();
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
 
+  // Use low thinkingLevel first so Gemini 3.8 Flash responds in ~10-20s instead of timing out.
+  // Fall back cleanly if an older/different model rejects thinkingConfig or responseSchema.
   const formats = [
-    { responseFormat: { text: { mimeType: "APPLICATION_JSON", schema } } },
-    { responseMimeType: "application/json", responseJsonSchema: schema },
+    {
+      responseMimeType: "application/json",
+      responseSchema: schema,
+      thinkingConfig: { thinkingLevel },
+    },
+    {
+      responseMimeType: "application/json",
+      responseSchema: schema,
+    },
+    {
+      responseMimeType: "application/json",
+      responseJsonSchema: schema,
+    },
   ];
 
   let response, data;
@@ -197,15 +204,20 @@ async function askGemini(parts, schema) {
       response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-        body: JSON.stringify({ contents: [{ parts }], generationConfig }),
-        signal: AbortSignal.timeout(120_000),
+        body: JSON.stringify({ contents: [{ role: "user", parts }], generationConfig }),
+        signal: AbortSignal.timeout(90_000),
       });
     } catch (err) {
-      console.error("Could not reach Gemini:", err.message);
+      const cause = err?.cause?.code || err?.cause?.message || "";
+      console.error("Could not reach Gemini:", err.name, err.message, cause);
+      if (err.name === "TimeoutError" || err.name === "AbortError") {
+        throw new AppError(504, "The AI took too long to respond. Please try again.");
+      }
       throw new AppError(502, "Could not reach the AI service. Please try again.");
     }
     data = await response.json().catch(() => ({}));
     if (response.status !== 400) break;
+    console.warn("Gemini 400 with config, trying fallback:", data?.error?.message || "");
   }
 
   if (!response.ok) {
@@ -221,7 +233,8 @@ async function askGemini(parts, schema) {
   const answer = (data.candidates?.[0]?.content?.parts || [])
     .filter((part) => !part.thought)
     .map((part) => part.text || "")
-    .join("");
+    .join("")
+    .trim();
 
   if (!answer) {
     throw new AppError(502, "The AI did not return an answer. Try rewording your input.");
@@ -229,7 +242,13 @@ async function askGemini(parts, schema) {
   try {
     return JSON.parse(answer);
   } catch {
-    throw new AppError(502, "The AI returned an unreadable answer. Please try again.");
+    // Strip markdown fences if model ever wraps JSON in ```json ... ```
+    const cleaned = answer.replace(/^```json\s*/i, "").replace(/```$/i, "").trim();
+    try {
+      return JSON.parse(cleaned);
+    } catch {
+      throw new AppError(502, "The AI returned an unreadable answer. Please try again.");
+    }
   }
 }
 
@@ -348,7 +367,6 @@ async function generateAtsResume(input) {
   };
 }
 
-// Backward-compatible wrapper used by /api/interviews/:id/resume
 async function generateResume(input) {
   const bundle = await generateAtsResume(input);
   return { ...bundle.resume, atsAnalysis: bundle.atsAnalysis };
