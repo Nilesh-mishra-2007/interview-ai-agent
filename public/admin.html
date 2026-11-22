@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Admin Email List &amp; Job Broadcast — Interview AI</title>
+</head>
+<body data-page="admin">
+  <div id="app-topbar"></div>
+
+  <main class="page-wrap">
+    <header class="section-head">
+      <div>
+        <h1>Admin <span class="highlight">Email List</span> &amp; Job Alerts</h1>
+        <p class="muted">View every registered user's email, export the full mailing list as CSV, and broadcast matching job alerts directly to opted-in users.</p>
+      </div>
+      <div class="inline-row">
+        <a class="button primary-button small-btn" href="/api/admin/users.csv">⬇ Download Email List (CSV)</a>
+      </div>
+    </header>
+
+    <p id="error" class="error" hidden></p>
+    <p id="admin-success" class="success" hidden></p>
+
+    <section id="admin-stats" class="kpi-grid"></section>
+
+    <!-- Broadcast a Job Alert Email -->
+    <form id="broadcast-form" class="card">
+      <div class="card__head">
+        <h2>Broadcast a Job Alert Email to Registered Users</h2>
+        <span class="badge badge--info">Opted-in Users Only</span>
+      </div>
+      <div class="grid-2">
+        <label class="field-label">Job Title *
+          <input id="bcTitle" class="field-input" required placeholder="e.g. AI/ML Engineer (Fresher / 0-2 yrs)">
+        </label>
+        <label class="field-label">Company *
+          <input id="bcCompany" class="field-input" required placeholder="e.g. Razorpay">
+        </label>
+        <label class="field-label">Location
+          <input id="bcLocation" class="field-input" placeholder="e.g. Bengaluru / Remote">
+        </label>
+        <label class="field-label">Direct Apply URL *
+          <input id="bcUrl" class="field-input" required placeholder="https://...">
+        </label>
+      </div>
+      <label class="field-label">Optional Skill/Role Filter (leave blank to email ALL opted-in users)
+        <input id="bcFilter" class="field-input" placeholder="e.g. python, backend, aiml, react">
+      </label>
+      <div>
+        <button id="bcSubmit" class="button primary-button small-btn" type="submit">📧 Send Job Alert Email Now</button>
+      </div>
+    </form>
+
+    <!-- Registered Users Table -->
+    <section class="card">
+      <div class="card__head">
+        <h2>Registered Users &amp; Mailing List</h2>
+        <input id="admin-search" class="field-input field-input--sm" placeholder="Search email, username, role...">
+      </div>
+      <div id="admin-users-list" class="stack-list"></div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

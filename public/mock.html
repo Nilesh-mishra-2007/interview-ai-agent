@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Live JD Mock Interviewer — Interview AI</title>
+</head>
+<body data-page="mock">
+  <div id="app-topbar"></div>
+
+  <main class="page-wrap">
+    <header class="section-head">
+      <div>
+        <h1>Interactive JD <span class="highlight">Mock Interviewer</span></h1>
+        <p class="muted">Paste any job description. The AI asks tailored questions one by one, scores your answers (1–10), gives model answers, and adapts with follow-ups.</p>
+      </div>
+    </header>
+
+    <p id="error" class="error" hidden></p>
+
+    <form id="mock-start-form" class="card">
+      <div class="card__head">
+        <h2>Start a New Mock Interview</h2>
+        <span class="badge">Voice &amp; Text</span>
+      </div>
+      <div class="grid-3">
+        <label class="field-label">Interview Focus
+          <select id="mockType" class="field-input">
+            <option value="mixed">Mixed (Technical + Behavioral)</option>
+            <option value="technical">Deep Technical</option>
+            <option value="behavioral">Behavioral (STAR)</option>
+            <option value="system_design">System Design / Architecture</option>
+          </select>
+        </label>
+        <label class="field-label">Difficulty
+          <select id="mockDifficulty" class="field-input">
+            <option value="junior">Junior / Intern</option>
+            <option value="mid" selected>Mid-Level</option>
+            <option value="senior">Senior</option>
+          </select>
+        </label>
+        <label class="field-label">Number of Questions
+          <input id="mockCount" type="number" min="3" max="10" value="5" class="field-input">
+        </label>
+      </div>
+      <label class="field-label">Target Job Description *
+        <textarea id="mockJd" class="panel__textarea panel__textarea--short" required maxlength="6000"
+          placeholder="Paste the job description here so the interviewer asks role-specific questions..."></textarea>
+      </label>
+      <div><button class="button primary-button small-btn" type="submit">🎙️ Start Mock Interview</button></div>
+    </form>
+
+    <section id="mock-active" class="stack-list" hidden></section>
+
+    <section id="mock-history-wrap" class="card" hidden>
+      <h2>Past Mock Interviews</h2>
+      <div id="mock-history-list" class="reports-list"></div>
+    </section>
+  </main>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="spinner"></div>
+    <p id="overlay-text">AI Interviewer is thinking...</p>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

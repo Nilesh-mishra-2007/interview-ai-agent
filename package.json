@@ -1,0 +1,14 @@
+{
+  "name": "interview-ai-agent",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AI Career Agent, ATS Resume Studio, Job Discovery & Tracker, Skill Roadmaps, and Interactive JD Mock Interviewer (zero dependencies)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --no-warnings --env-file-if-exists=.env server.js",
+    "dev": "node --no-warnings --env-file-if-exists=.env --watch server.js"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Job Application Tracker — Interview AI</title>
+</head>
+<body data-page="tracker">
+  <div id="app-topbar"></div>
+
+  <main class="page-wrap">
+    <header class="section-head">
+      <div>
+        <h1>Job Application <span class="highlight">Tracker</span></h1>
+        <p class="muted">Track every job from Saved to Offer, set follow-up reminders, export CSV, and launch ATS resumes or mock interviews in one click.</p>
+      </div>
+      <div class="inline-row">
+        <a class="button ghost-btn small-btn" href="/api/applications/export.csv">⬇ Export CSV</a>
+        <button id="toggle-add" class="button primary-button small-btn" type="button">+ Add Application</button>
+      </div>
+    </header>
+
+    <section id="tracker-stats" class="kpi-grid"></section>
+
+    <p id="error" class="error" hidden></p>
+
+    <form id="add-app-form" class="card" hidden>
+      <div class="card__head">
+        <h2>Add New Job Application</h2>
+        <button id="cancel-add" class="link-button" type="button">Cancel</button>
+      </div>
+      <div class="grid-2">
+        <label class="field-label">Company *<input id="appCompany" class="field-input" required placeholder="e.g. Google"></label>
+        <label class="field-label">Role / Title *<input id="appRole" class="field-input" required placeholder="e.g. Software Engineer, AI/ML"></label>
+        <label class="field-label">Location<input id="appLocation" class="field-input" placeholder="e.g. Bengaluru / Remote"></label>
+        <label class="field-label">Salary / CTC<input id="appSalary" class="field-input" placeholder="e.g. 12-18 LPA"></label>
+        <label class="field-label">Status
+          <select id="appStatus" class="field-input">
+            <option>Saved</option><option>Applied</option><option>Screening</option>
+            <option>Interview</option><option>Offer</option><option>Rejected</option>
+          </select>
+        </label>
+        <label class="field-label">Follow-Up Reminder Date<input id="appFollowUp" type="date" class="field-input"></label>
+        <label class="field-label">Source<input id="appSource" class="field-input" placeholder="LinkedIn, GitHub, Company Site..."></label>
+        <label class="field-label">Job Link / Apply URL<input id="appUrl" class="field-input" placeholder="https://..."></label>
+      </div>
+      <label class="field-label">Job Description (optional — enables 1-click ATS Resume &amp; Mock Interview)
+        <textarea id="appJd" class="panel__textarea panel__textarea--short" maxlength="6000" placeholder="Paste job description..."></textarea>
+      </label>
+      <label class="field-label">Notes
+        <textarea id="appNotes" class="panel__textarea panel__textarea--short" maxlength="2000" placeholder="Recruiter name, referral, interview notes..."></textarea>
+      </label>
+      <div><button class="button primary-button small-btn" type="submit">Save Application</button></div>
+    </form>
+
+    <div class="filter-bar">
+      <div class="inline-row" id="status-filters">
+        <button class="filter-chip filter-chip--active" data-status="ALL">All</button>
+        <button class="filter-chip" data-status="Saved">Saved</button>
+        <button class="filter-chip" data-status="Applied">Applied</button>
+        <button class="filter-chip" data-status="Screening">Screening</button>
+        <button class="filter-chip" data-status="Interview">Interview</button>
+        <button class="filter-chip" data-status="Offer">Offer</button>
+        <button class="filter-chip" data-status="Rejected">Rejected</button>
+      </div>
+      <input id="tracker-search" class="field-input field-input--sm" placeholder="Filter by company or role...">
+    </div>
+
+    <div id="apps-list" class="stack-list"></div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Interview AI — Career Agent</title>
+</head>
+<body data-page="home">
+  <div id="app-topbar"></div>
+
+  <div class="home-page">
+    <header class="page-header">
+      <h1>Create Your Custom <span class="highlight">Interview Plan</span></h1>
+      <p>Paste a job description to get match score, skill gaps, interview Q&amp;A, 7-day plan, and an ATS-friendly resume — automatically enriched with your synced GitHub &amp; Career Profile.</p>
+      <div class="quick-links">
+        <a class="pill-link" href="/agent.html">🤖 AI Job Agent</a>
+        <a class="pill-link" href="/ats-resume.html">📄 ATS Resume Studio</a>
+        <a class="pill-link" href="/tracker.html">📋 Job Tracker</a>
+        <a class="pill-link" href="/roadmaps.html">🗺️ Skill Roadmaps</a>
+        <a class="pill-link" href="/mock.html">🎙️ Live Mock Interview</a>
+        <a class="pill-link" href="/profile.html">⚙️ Link GitHub &amp; LinkedIn</a>
+      </div>
+    </header>
+
+    <form id="report-form" class="interview-card">
+      <div class="interview-card__body">
+        <div class="panel">
+          <div class="panel__header">
+            <h2>Target Job Description</h2>
+            <span class="badge">Required</span>
+          </div>
+          <textarea id="jobDescription" class="panel__textarea" required maxlength="6000"
+            placeholder="Paste the full job description here...&#10;e.g. 'AI/ML &amp; Backend Engineer requires Python, FastAPI, Node.js, SQL, Docker...'"></textarea>
+          <div id="counter" class="char-counter">0 / 6000 chars</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__header">
+            <h2>Your Profile</h2>
+          </div>
+
+          <div id="profile-banner" class="info-box info-box--ok" hidden></div>
+
+          <p class="section-label">Upload Resume <span class="badge">Optional if Master Resume saved</span></p>
+          <label id="dropzone" class="dropzone" for="resume">
+            <strong>Click to upload or drag &amp; drop</strong>
+            <span id="file-name">PDF only (max 3 MB)</span>
+            <input id="resume" type="file" accept="application/pdf,.pdf" hidden>
+          </label>
+
+          <div class="or-divider"><span>OR</span></div>
+
+          <label class="section-label" for="selfDescription">Quick Self-Description</label>
+          <textarea id="selfDescription" class="panel__textarea panel__textarea--short" maxlength="5000"
+            placeholder="Briefly describe your experience, key skills, and projects (or leave blank to use your synced Career Profile + GitHub)..."></textarea>
+        </div>
+      </div>
+
+      <div class="interview-card__footer">
+        <span class="footer-info">AI-powered &bull; uses your synced GitHub &amp; Profile automatically</span>
+        <span>
+          <span id="error" class="error" hidden></span>
+          <button class="generate-btn" id="generate">Generate Interview Strategy</button>
+        </span>
+      </div>
+    </form>
+
+    <section id="recent" class="recent-reports" hidden>
+      <h2>My Recent Interview Plans</h2>
+      <div id="reports-list" class="reports-list"></div>
+    </section>
+  </div>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="spinner"></div>
+    <p id="overlay-text">Building your interview plan... this can take up to a minute.</p>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

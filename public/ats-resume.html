@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>ATS Resume Studio — Interview AI</title>
+</head>
+<body data-page="ats" class="resume-body">
+  <div id="app-topbar" class="no-print"></div>
+
+  <main class="page-wrap no-print">
+    <header class="section-head">
+      <div>
+        <h1>ATS-Friendly <span class="highlight">Resume Studio</span></h1>
+        <p class="muted">Generate single-column, parser-safe resumes tailored to any job description, inspect your live ATS keyword score, and generate matching cover letters &amp; recruiter outreach.</p>
+      </div>
+    </header>
+
+    <p id="error" class="error" hidden></p>
+
+    <form id="ats-form" class="card">
+      <div class="card__head">
+        <h2>Generate Tailored ATS Resume</h2>
+        <span class="badge">Zero Fabrication Guard</span>
+      </div>
+      <div class="grid-2">
+        <label class="field-label">Target Role Title (optional — auto-detected from JD)
+          <input id="atsTitle" class="field-input" placeholder="e.g. Backend Engineer">
+        </label>
+        <label class="field-label">Company Name (optional)
+          <input id="atsCompany" class="field-input" placeholder="e.g. Razorpay">
+        </label>
+      </div>
+      <label class="field-label">Target Job Description *
+        <textarea id="atsJd" class="panel__textarea panel__textarea--short" required maxlength="6000"
+          placeholder="Paste the full job description here..."></textarea>
+      </label>
+      <div class="grid-2">
+        <label class="field-label">Upload Resume PDF (optional if Master Resume saved in Profile)
+          <input id="atsResumeFile" type="file" accept="application/pdf,.pdf" class="field-input">
+        </label>
+        <label class="field-label">Extra Context / Achievements to Highlight (optional)
+          <input id="atsSelf" class="field-input" placeholder="Any extra projects, metrics, or coursework...">
+        </label>
+      </div>
+      <div class="inline-row">
+        <button class="button primary-button small-btn" type="submit">✨ Generate ATS Resume &amp; Score</button>
+        <span class="muted">Automatically includes your synced GitHub repos &amp; Career Profile.</span>
+      </div>
+    </form>
+
+    <section id="ats-saved-wrap" class="card" hidden>
+      <h2>My Saved ATS Resumes</h2>
+      <div id="ats-saved-list" class="reports-list"></div>
+    </section>
+
+    <!-- Active ATS Result Dashboard -->
+    <section id="ats-workspace" class="stack-list" hidden>
+      <div class="card">
+        <div class="card__head">
+          <h2 id="ats-active-title">ATS Compatibility Report</h2>
+          <div class="inline-row">
+            <select id="ats-template" class="field-input field-input--sm">
+              <option value="classic">Classic ATS (Serif)</option>
+              <option value="modern">Modern ATS (Clean Sans)</option>
+            </select>
+            <button id="ats-toggle-edit" class="button ghost-btn small-btn" type="button">✏️ Edit Text</button>
+            <button id="ats-copy-txt" class="button ghost-btn small-btn" type="button">📋 Copy Plain Text</button>
+            <button id="ats-outreach-btn" class="button ghost-btn small-btn" type="button">✉️ Cover Letter &amp; Outreach</button>
+            <button id="ats-print" class="button primary-button small-btn" type="button">⬇ Download PDF</button>
+          </div>
+        </div>
+
+        <div id="ats-scores" class="kpi-grid"></div>
+        <div class="grid-2">
+          <div>
+            <p class="small-label">Matched JD Keywords</p>
+            <div id="ats-matched" class="chip-wrap"></div>
+          </div>
+          <div>
+            <p class="small-label">Missing JD Keywords (not fabricated)</p>
+            <div id="ats-missing" class="chip-wrap"></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem;">
+          <p class="small-label">Actionable ATS Tips</p>
+          <ul id="ats-tips" class="clean-list"></ul>
+        </div>
+      </div>
+
+      <!-- Optional Outreach Pack -->
+      <div id="ats-outreach-box" class="card" hidden></div>
+    </section>
+  </main>
+
+  <!-- Printable Single-Column ATS Paper -->
+  <article id="paper" class="paper ats-classic" hidden></article>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="spinner"></div>
+    <p id="overlay-text">Crafting your ATS-friendly resume and running keyword analysis...</p>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

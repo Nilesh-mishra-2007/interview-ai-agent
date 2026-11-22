@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Skill Roadmaps &amp; Best Resources — Interview AI</title>
+</head>
+<body data-page="roadmaps">
+  <div id="app-topbar"></div>
+
+  <main class="page-wrap">
+    <header class="section-head">
+      <div>
+        <h1>AI Skill <span class="highlight">Roadmaps</span> &amp; Best Resources</h1>
+        <p class="muted">Generate structured, multi-week learning roadmaps with curated top free/paid resources, portfolio mini-projects, and checkable progress.</p>
+      </div>
+    </header>
+
+    <p id="error" class="error" hidden></p>
+
+    <form id="roadmap-form" class="card">
+      <div class="card__head">
+        <h2>Build a Custom Skill Roadmap</h2>
+      </div>
+      <div class="grid-3">
+        <label class="field-label">Target Role or Skill *
+          <input id="rmRole" class="field-input" required placeholder="e.g. AI/ML &amp; Backend Engineer, System Design">
+        </label>
+        <label class="field-label">Current Level
+          <select id="rmLevel" class="field-input">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate" selected>Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </label>
+        <label class="field-label">Duration (weeks)
+          <input id="rmWeeks" type="number" min="2" max="24" value="8" class="field-input">
+        </label>
+      </div>
+      <label class="field-label">Optional: Paste a Job Description to target its exact skill gaps
+        <textarea id="rmJd" class="panel__textarea panel__textarea--short" maxlength="5000"
+          placeholder="Leave blank for a general role roadmap, or paste a JD to focus on missing skills..."></textarea>
+      </label>
+      <div><button class="button primary-button small-btn" type="submit">🗺️ Generate Roadmap with Best Resources</button></div>
+    </form>
+
+    <section id="rm-saved-wrap" class="card" hidden>
+      <h2>My Saved Roadmaps</h2>
+      <div id="rm-saved-list" class="reports-list"></div>
+    </section>
+
+    <section id="rm-detail" class="stack-list" hidden></section>
+  </main>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="spinner"></div>
+    <p id="overlay-text">Designing your personalized skill roadmap and curating top resources...</p>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

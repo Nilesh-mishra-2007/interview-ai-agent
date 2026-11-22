@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Your ATS Resume — Interview AI</title>
+</head>
+<body data-page="resume" class="resume-body">
+  <div class="topbar no-print">
+    <a class="brand" href="/">Interview <span class="highlight">AI</span></a>
+    <span class="topbar__right">
+      <a id="back" href="/">&larr; Back to plan</a>
+      <a href="/ats-resume.html">ATS Studio</a>
+      <button id="print" class="button primary-button small-btn" disabled>Download PDF</button>
+    </span>
+  </div>
+
+  <p id="loading" class="loading-note no-print">Writing your ATS-friendly tailored resume... this takes about 20-30 seconds.</p>
+  <p id="error" class="error no-print" hidden></p>
+  <p id="hint" class="hint no-print" hidden>Tip: in the print window choose <strong>Save as PDF</strong> and disable Headers/Footers for a clean ATS PDF.</p>
+  <div id="resume-ats-banner" class="page-wrap no-print" hidden></div>
+
+  <article id="paper" class="paper ats-classic" hidden></article>
+  <script src="/app.js"></script>
+</body>
+</html>

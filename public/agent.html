@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>AI Job Agent — Interview AI</title>
+</head>
+<body data-page="agent">
+  <div id="app-topbar"></div>
+
+  <main class="page-wrap">
+    <header class="section-head">
+      <div>
+        <h1>AI <span class="highlight">Job Agent</span> &amp; Apply-Assist</h1>
+        <p class="muted">Scans live job boards matching your field &amp; GitHub profile, scores every role, and prepares 1-click ATS resumes, cover letters, cold emails, and screening answers.</p>
+      </div>
+      <div class="inline-row">
+        <input id="scan-query" class="field-input" placeholder="Optional custom role (e.g. AI Engineer)">
+        <button id="run-scan" class="button primary-button small-btn" type="button">🤖 Run AI Scan Now</button>
+      </div>
+    </header>
+
+    <div class="info-box">
+      <strong>Safe Apply-Assist Mode:</strong> To protect your LinkedIn/Indeed accounts from bot bans, this agent discovers &amp; ranks real jobs via legal APIs, pre-builds your tailored ATS resume + cover letter + screening answers, and opens the official apply link for 1-click review and submission.
+    </div>
+
+    <p id="error" class="error" hidden></p>
+    <p id="scan-status" class="success" hidden></p>
+
+    <div class="filter-bar">
+      <div class="inline-row">
+        <button class="filter-chip filter-chip--active" data-filter="all">All Matches</button>
+        <button class="filter-chip" data-filter="high">Strong Matches (≥ 70%)</button>
+        <button class="filter-chip" data-filter="saved">Prepped / Saved</button>
+        <button class="filter-chip" data-filter="applied">Applied</button>
+      </div>
+      <span id="job-count" class="muted"></span>
+    </div>
+
+    <div id="jobs-list" class="stack-list"></div>
+  </main>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="spinner"></div>
+    <p id="overlay-text">AI Agent is scanning job boards and scoring matches...</p>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

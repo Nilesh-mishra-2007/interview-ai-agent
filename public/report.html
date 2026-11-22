@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Interview Plan — Interview AI</title>
+</head>
+<body data-page="report">
+  <div id="app-topbar"></div>
+
+  <div class="report-page">
+    <p id="loading" class="loading-note">Loading your interview plan...</p>
+    <p id="error" class="error" hidden></p>
+
+    <div id="report" class="report-layout" hidden>
+      <nav class="report-nav">
+        <p class="small-label">Sections</p>
+        <button class="nav-item nav-item--active" data-tab="technical">Technical Questions</button>
+        <button class="nav-item" data-tab="behavioral">Behavioral Questions</button>
+        <button class="nav-item" data-tab="roadmap">7-Day Plan</button>
+        <hr>
+        <a id="resume-link" class="button primary-button resume-btn" href="#">ATS Resume</a>
+        <button id="launch-mock" class="button ghost-btn resume-btn" type="button">🎙️ Practice Mock</button>
+        <button id="launch-roadmap" class="button ghost-btn resume-btn" type="button">🗺️ Full Roadmap</button>
+        <button id="save-to-tracker" class="button ghost-btn resume-btn" type="button">📋 Save to Tracker</button>
+      </nav>
+
+      <main id="content" class="report-content"></main>
+
+      <aside class="report-sidebar">
+        <p id="job-title" class="job-title"></p>
+        <p class="small-label">Match Score</p>
+        <div id="score-ring" class="score-ring"></div>
+        <p id="score-text" class="score-text"></p>
+        <hr>
+        <p class="small-label">Skill Gaps</p>
+        <div id="gaps"></div>
+      </aside>
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

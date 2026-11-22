@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Career Profile &amp; Integrations — Interview AI</title>
+</head>
+<body data-page="profile">
+  <div id="app-topbar"></div>
+
+  <main class="page-wrap">
+    <header class="section-head">
+      <div>
+        <h1>Career Profile &amp; <span class="highlight">Integrations</span></h1>
+        <p class="muted">Link your GitHub, LinkedIn, Master Resume, and Job Agent preferences once — every AI feature uses them automatically.</p>
+      </div>
+      <div id="api-pills" class="api-pills"></div>
+    </header>
+
+    <p id="error" class="error" hidden></p>
+    <p id="success" class="success" hidden></p>
+
+    <div class="grid-2">
+      <!-- GitHub Direct Link -->
+      <section class="card">
+        <div class="card__head">
+          <h2>GitHub Direct Sync</h2>
+          <span class="badge">Live REST API</span>
+        </div>
+        <p class="muted">Enter your GitHub username or URL. We pull your top repositories, languages, stars, and project descriptions so the AI tailors resumes, job scores, and interview questions to your real code.</p>
+        <div class="inline-row">
+          <input id="githubUsername" class="field-input" placeholder="e.g. octocat or https://github.com/octocat">
+          <button id="sync-github" class="button primary-button small-btn" type="button">Sync GitHub</button>
+        </div>
+        <div id="github-preview" class="gh-preview" hidden></div>
+      </section>
+
+      <!-- LinkedIn + Master Resume PDF -->
+      <section class="card">
+        <div class="card__head">
+          <h2>LinkedIn &amp; Master Resume</h2>
+          <span class="badge">ATS Ready</span>
+        </div>
+        <p class="muted">Paste your LinkedIn URL and upload your Master Resume or LinkedIn "Save to PDF" export. It stays saved securely in your account.</p>
+        <div class="form-stack">
+          <label class="field-label">LinkedIn Profile URL
+            <input id="linkedinUrl" class="field-input" placeholder="https://www.linkedin.com/in/your-handle">
+          </label>
+          <label class="field-label">Portfolio / Website URL
+            <input id="portfolioUrl" class="field-input" placeholder="https://yourportfolio.dev">
+          </label>
+          <div class="field-label">
+            <span>Master Resume / LinkedIn PDF (max 3 MB)</span>
+            <div class="inline-row">
+              <input id="masterResumeFile" type="file" accept="application/pdf,.pdf" class="field-input">
+              <button id="removeMasterResume" type="button" class="button ghost-btn small-btn" hidden>Remove</button>
+            </div>
+            <span id="masterResumeStatus" class="muted">No master PDF uploaded yet.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Main Profile & Job Agent Preferences Form -->
+    <form id="profile-form" class="card">
+      <div class="card__head">
+        <h2>Core Details, Target Field &amp; Alert Settings</h2>
+        <button id="save-profile" class="button primary-button small-btn" type="submit">Save Career Profile</button>
+      </div>
+
+      <div class="grid-2">
+        <label class="field-label">Full Name
+          <input id="fullName" class="field-input" placeholder="Your full name">
+        </label>
+        <label class="field-label">Professional Headline
+          <input id="headline" class="field-input" placeholder="e.g. B.Tech AI/ML &amp; Backend Engineer">
+        </label>
+        <label class="field-label">Phone (for ATS Resume)
+          <input id="phone" class="field-input" placeholder="+91 98765 43210">
+        </label>
+        <label class="field-label">Current Location
+          <input id="location" class="field-input" placeholder="e.g. Noida, Uttar Pradesh, India">
+        </label>
+        <label class="field-label">Target Roles / Field (comma-separated)
+          <input id="targetRoles" class="field-input" placeholder="e.g. AI/ML Engineer, Backend Developer, Python Developer">
+        </label>
+        <label class="field-label">Preferred Job Location
+          <input id="preferredLocation" class="field-input" placeholder="e.g. Remote, Noida, Bengaluru, India">
+        </label>
+        <label class="field-label">Experience Level
+          <select id="experienceLevel" class="field-input">
+            <option value="intern">Intern / Student</option>
+            <option value="entry">Entry Level (0-2 yrs)</option>
+            <option value="mid">Mid Level (2-5 yrs)</option>
+            <option value="senior">Senior (5+ yrs)</option>
+          </select>
+        </label>
+        <label class="field-label">Work Mode Preference
+          <select id="workMode" class="field-input">
+            <option value="any">Any (Remote / Hybrid / Onsite)</option>
+            <option value="remote">Remote Only</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="onsite">Onsite</option>
+          </select>
+        </label>
+        <label class="field-label">Minimum Match Score for Job Alerts (%)
+          <input id="minMatchScore" type="number" min="0" max="100" class="field-input" value="65">
+        </label>
+        <label class="field-label">Custom Company ATS Boards (optional)
+          <input id="atsBoards" class="field-input" placeholder="e.g. greenhouse:stripe, lever:netflix">
+        </label>
+      </div>
+
+      <label class="field-label">Key Skills (comma-separated — auto-filled when you sync GitHub)
+        <input id="skills" class="field-input" placeholder="Python, Node.js, FastAPI, SQL, PyTorch, Docker, Git">
+      </label>
+
+      <label class="field-label">Short Bio / Experience Summary (used across ATS resumes, job scoring &amp; mock interviews)
+        <textarea id="bio" class="panel__textarea panel__textarea--short" maxlength="5000"
+          placeholder="Summarize your degree, internships, key projects, and achievements..."></textarea>
+      </label>
+
+      <div class="grid-2">
+        <label class="field-label">Discord or Slack Webhook URL (optional instant job alerts)
+          <input id="webhookUrl" class="field-input" placeholder="https://discord.com/api/webhooks/...">
+        </label>
+        <label class="field-label">Telegram Chat ID (optional — requires TELEGRAM_BOT_TOKEN in .env)
+          <input id="telegramChatId" class="field-input" placeholder="e.g. 123456789">
+        </label>
+      </div>
+
+      <label class="checkbox-row">
+        <input id="autoScanEnabled" type="checkbox" checked>
+        <span>Enable automatic background AI Job Agent scans (notifies me when high-match jobs are posted)</span>
+      </label>
+
+      <label class="checkbox-row">
+        <input id="emailAlertsEnabled" type="checkbox" checked>
+        <span>Send automatic job match alert emails to my registered email address</span>
+      </label>
+    </form>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

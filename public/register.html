@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Register — Interview AI</title>
+</head>
+<body data-page="register">
+  <main class="auth-page">
+    <div class="form-container">
+      <h1>Create <span class="highlight">Account</span></h1>
+      <p class="muted">We'll send a 6-digit OTP to verify your email address before creating your account.</p>
+
+      <form id="register-form">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input id="username" type="text" required minlength="2" maxlength="30" placeholder="Enter username">
+        </div>
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input id="email" type="email" required placeholder="Enter email address">
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" required minlength="8" placeholder="At least 8 characters">
+        </div>
+
+        <button id="send-otp" class="button ghost-btn" type="button">Send Verification OTP</button>
+
+        <div id="otp-box" class="input-group" hidden>
+          <label for="otp">6-Digit Email OTP</label>
+          <input id="otp" type="text" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP">
+        </div>
+
+        <p id="otp-info" class="success" hidden></p>
+        <p id="error" class="error" hidden></p>
+
+        <button id="submit" class="button primary-button" type="submit" disabled>Verify OTP &amp; Register</button>
+      </form>
+
+      <p>Already have an account? <a href="/login.html">Login</a></p>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
